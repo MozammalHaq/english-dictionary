@@ -13,9 +13,8 @@ const dictionary = () => {
 }
 
 const showMeaning = data => {
-    console.log(data);
+    // console.log(data);
     if (data?.title === "No Definitions Found") {
-        console.log("dsafadsf");
         alert(data?.message)
     }
     searchedWord.innerText = data[0].word;
@@ -33,18 +32,42 @@ const showMeaning = data => {
         li.innerText = mean?.definition;
         meaning.appendChild(li);
     })
-    console.log(data[0]?.meanings[0]);
+    // console.log(data[0]?.meanings[0]);
     const synonym = data[0]?.meanings[0].synonyms;
-    showSynonyms(synonym)
+    const audio = data[0]
+    showSynonyms(synonym);
+    displayAudion(audio);
 }
 
 const showSynonyms = data => {
-    console.log(data);
+    // console.log(data);
     synonym.innerText = "";
     data.map(syno => {
-        console.log(syno)
         const li = document.createElement('li');
         li.innerText = syno;
         synonym.appendChild(li);
+    })
+}
+
+const displayAudion = data => {
+    const parent = document.getElementById("audio");
+    console.log(parent);
+    data.phonetics.forEach(element => {
+        const audio = document.createElement("audio");
+        // console.log(element.audio);
+        audio.src = element.audio;
+        const button = document.createElement("button");
+        button.classList.add("btn")
+        button.classList.add("btn-primary")
+        button.classList.add("me-2")
+        button.innerHTML = "Audio";
+        button.onclick = () => {
+            audio.play();
+        };
+        const container = document.createElement("span");
+        container.appendChild(button);
+        container.appendChild(audio);
+
+        parent.appendChild(container)
     })
 }
